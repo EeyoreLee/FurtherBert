@@ -1,0 +1,4 @@
+deepspeed
+tqdm
+transformers
+mpi4py

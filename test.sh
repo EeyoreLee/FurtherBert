@@ -1,0 +1,11 @@
+CUDA_VISIBLE_DEVICES=2 python ./code/train.py \
+--lr=1e-4 \
+--epochs=10 \
+--train_batch_size=2 \
+--seq_length=512 \
+--max_predictions_per_seq=80 \
+--num_hidden_layers=24 \
+--num_attention_heads=16 \
+--hidden_size=1280 \
+--vocab_size=30522 \
+--dataset_size=2

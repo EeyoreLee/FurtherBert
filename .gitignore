@@ -1,0 +1,7 @@
+model/runs/*
+model/checkpoint*
+model/*.pth
+.vscode
+.empty
+tmp_trainer
+model/
