@@ -4,4 +4,3 @@ model/*.pth
 .vscode
 .empty
 tmp_trainer
-model/
