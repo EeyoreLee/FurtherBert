@@ -5,13 +5,19 @@
 '''
 
 from collections import OrderedDict
+import argparse
+
 import torch
 from transformers import BertConfig, BertModel
 from transformers.trainer_utils import get_last_checkpoint
 from deepspeed.utils.zero_to_fp32 import load_state_dict_from_zero_checkpoint
 
-# HIDDEN_SIZE = 2432
-HIDDEN_SIZE = 2256
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--hidden_size", type=int, default=768, help="Hidden size of transformer model",
+)
+args = parser.parse_args()
+HIDDEN_SIZE = args.hidden_size
 
 config = BertConfig(
     hidden_size=HIDDEN_SIZE,

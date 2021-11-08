@@ -1,10 +1,13 @@
 import os
+import sys
 
 import torch
 from torch import nn
 from torch.utils.data import Dataset, DataLoader, TensorDataset
 from transformers import BertModel, BertConfig, Trainer, AdamW, get_scheduler, TrainingArguments
 from transformers.trainer_utils import is_main_process
+from transformers.trainer_utils import get_last_checkpoint
+from deepspeed.utils.zero_to_fp32 import load_state_dict_from_zero_checkpoint
 import argparse
 from tqdm import tqdm
 import numpy as np
@@ -244,11 +247,31 @@ if __name__ == '__main__':
         train_dataset=data_dataset
         )
 
-    trainer.train()
+    try:
+        trainer.train()
+    except Exception as e:
+        print(e)
+        sys.exit(1)
 
     if is_main_process(_training_args.local_rank):
         print('End of training .')
+        print('\n')
+        print('Start to save the model ...')
+        HIDDEN_SIZE = args.hidden_size
 
-        # torch.save(model.bert.state_dict(), './model/bert_large.pth')
+        config = BertConfig(
+            hidden_size=HIDDEN_SIZE,
+            num_hidden_layers=24,
+            num_attention_heads=16,
+            intermediate_size=4*HIDDEN_SIZE
+        )
+        model = BertModel(config)
 
-        # print('End of saving .')
+        output_dir = get_last_checkpoint('./model')
+        fp32_model = load_state_dict_from_zero_checkpoint(model, output_dir)
+        torch.save(fp32_model.state_dict(), './model/bert_large_{}.pth'.format(HIDDEN_SIZE))
+
+        print('End of saving .')
+        print('')
+        print('final hidden size is {}'.format(HIDDEN_SIZE))
+        sys.exit()

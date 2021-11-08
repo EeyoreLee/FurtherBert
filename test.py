@@ -8,7 +8,7 @@ import torch
 from transformers import BertConfig, BertModel
 
 
-HIDDEN_SIZE = 2432
+HIDDEN_SIZE = 2256
 
 config = BertConfig(
     hidden_size=HIDDEN_SIZE,
@@ -17,5 +17,6 @@ config = BertConfig(
     intermediate_size=4*HIDDEN_SIZE
 )
 model = BertModel(config)
-model.load_state_dict(torch.load('./model/bert_large.pth'))
+state_dict = torch.load('./model/bert_large.pth')
+model.load_state_dict(state_dict)
 pass
