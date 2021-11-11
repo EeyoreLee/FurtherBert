@@ -3,7 +3,7 @@ apt install -y libopenmpi-dev
 pip install -r ./code/requirements.txt 
 
 HIDDEN_SIZE_BEGIN=2096
-HIDDEN_SIZE_BEGIN=2304
+# HIDDEN_SIZE_BEGIN=2400
 
 for addition in 0 1 2 3 4 5 6 7 8 9 10
 do
@@ -25,6 +25,7 @@ do
 
     if [ $? != 0 ]
     then
+        echo "the final hidden size is ${HIDDEN_SIZE} !!!!"
         break
     fi
 done
