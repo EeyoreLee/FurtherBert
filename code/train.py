@@ -273,5 +273,5 @@ if __name__ == '__main__':
 
         print('End of saving .')
         print('')
-        print('final hidden size is {}'.format(HIDDEN_SIZE))
+        #print('final hidden size is {}'.format(HIDDEN_SIZE))
         sys.exit()
