@@ -19,13 +19,13 @@ class DataNumpyDataset(Dataset):
         self.npy = open("./code/data.npy", "rb")
         data = np.load(self.npy, allow_pickle=True)
         pt_data = dict()
-        pt_data["input_ids"] = torch.LongTensor(data[0]["input_ids"])
-        pt_data["token_type_ids"] = torch.LongTensor(data[0]["token_type_ids"])
-        pt_data["attention_mask"] = torch.LongTensor(data[0]["attention_mask"])
-        pt_data['label'] = torch.LongTensor(data[1])
-        pt_data['masked_lm_ids'] = torch.LongTensor(data[2])
-        pt_data['masked_lm_positions'] = torch.LongTensor(data[3])
-        pt_data['masked_lm_weights'] = torch.LongTensor(data[4])
+        pt_data["input_ids"] = torch.LongTensor(data[0]["input_ids"]).cuda()
+        pt_data["token_type_ids"] = torch.LongTensor(data[0]["token_type_ids"]).cuda()
+        pt_data["attention_mask"] = torch.LongTensor(data[0]["attention_mask"]).cuda()
+        pt_data['label'] = torch.LongTensor(data[1]).cuda()
+        pt_data['masked_lm_ids'] = torch.LongTensor(data[2]).cuda()
+        pt_data['masked_lm_positions'] = torch.LongTensor(data[3]).cuda()
+        pt_data['masked_lm_weights'] = torch.LongTensor(data[4]).cuda()
         self.pt_data = pt_data
 
     def __len__(self):
@@ -216,7 +216,8 @@ if __name__ == '__main__':
         disable_tqdm=False,
         save_strategy='steps',
         save_total_limit=1,
-        save_steps=20
+        save_steps=20,
+        do_eval=False
     )
 
     if is_main_process(_training_args.local_rank):
