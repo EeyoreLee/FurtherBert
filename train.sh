@@ -11,7 +11,7 @@ do
     echo "current hidden size is ${HIDDEN_SIZE} ..."
 
     CUDA_VISIBLE_DEVICES=0,1 deepspeed --num_gpus=2 ./code/train.py \
-    --deepspeed ./code/ds_config.json \
+    --deepspeed ./code/ds_auto_config.json \
     --lr=1e-4 \
     --epochs=10 \
     --train_batch_size=2 \
@@ -25,7 +25,8 @@ do
 
     if [ $? != 0 ]
     then
-        echo "the final hidden size is ${HIDDEN_SIZE} !!!!"
+        FINAL_HIDDEN_SIZE=`expr ${HIDDEN_SIZE} - ${addition} \* 32`
+        echo "the final hidden size is ${FINAL_HIDDEN_SIZE} !!!!"
         break
     fi
 done
