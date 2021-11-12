@@ -1,4 +1,4 @@
-deepspeed
+deepspeed==0.5.5
 tqdm
-transformers
-mpi4py
+transformers==4.12.3
+mpi4py==3.1.2
